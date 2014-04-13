@@ -21,12 +21,12 @@ end
 
 
 function print_table(arg)
-	print("arg = ", arg)
+    print("arg = ", arg)
     print("arg.name = ", arg.name) 
 end
 
 function return_table(arg)
-	local ret = {}
-	ret.name = arg
-	return ret
+    local ret = {}
+    ret.name = arg
+    return ret
 end

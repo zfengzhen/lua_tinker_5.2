@@ -67,15 +67,15 @@ void lua_tinker::init_s64(lua_State *L)
 
     lua_pushstring(L, "__eq");
     lua_pushcclosure(L, eq_s64, 0);
-    lua_rawset(L, -3);	
+    lua_rawset(L, -3);  
 
     lua_pushstring(L, "__lt");
     lua_pushcclosure(L, lt_s64, 0);
-    lua_rawset(L, -3);	
+    lua_rawset(L, -3);  
 
     lua_pushstring(L, "__le");
     lua_pushcclosure(L, le_s64, 0);
-    lua_rawset(L, -3);	
+    lua_rawset(L, -3);  
 
     lua_setglobal(L, name); //pop table
 }
@@ -128,15 +128,15 @@ void lua_tinker::init_u64(lua_State *L)
 
     lua_pushstring(L, "__eq");
     lua_pushcclosure(L, eq_u64, 0);
-    lua_rawset(L, -3);	
+    lua_rawset(L, -3);  
 
     lua_pushstring(L, "__lt");
     lua_pushcclosure(L, lt_u64, 0);
-    lua_rawset(L, -3);	
+    lua_rawset(L, -3);  
 
     lua_pushstring(L, "__le");
     lua_pushcclosure(L, le_u64, 0);
-    lua_rawset(L, -3);	
+    lua_rawset(L, -3);  
 
     lua_setglobal(L, name);
 }
@@ -260,129 +260,131 @@ void lua_tinker::enum_stack(lua_State *L)
     {
         switch(lua_type(L, i))
         {
-            case LUA_TNIL:
-                print_error(L, "\t%s", lua_typename(L, lua_type(L, i)));
-                break;
-            case LUA_TBOOLEAN:
-                print_error(L, "\t%s	%s", lua_typename(L, lua_type(L, i)), lua_toboolean(L, i)?"true":"false");
-                break;
-            case LUA_TLIGHTUSERDATA:
-                print_error(L, "\t%s	0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
-                break;
-            case LUA_TNUMBER:
-                print_error(L, "\t%s	%f", lua_typename(L, lua_type(L, i)), lua_tonumber(L, i));
-                break;
-            case LUA_TSTRING:
-                print_error(L, "\t%s	%s", lua_typename(L, lua_type(L, i)), lua_tostring(L, i));
-                break;
-            case LUA_TTABLE:
-                print_error(L, "\t%s	0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
-                break;
-            case LUA_TFUNCTION:
-                print_error(L, "\t%s()	0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
-                break;
-            case LUA_TUSERDATA:
-                print_error(L, "\t%s	0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
-                break;
-            case LUA_TTHREAD:
-                print_error(L, "\t%s", lua_typename(L, lua_type(L, i)));
-                break;
+        case LUA_TNIL:
+            print_error(L, "\t%s", lua_typename(L, lua_type(L, i)));
+            break;
+        case LUA_TBOOLEAN:
+            print_error(L, "\t%s    %s", lua_typename(L, lua_type(L, i)), lua_toboolean(L, i)?"true":"false");
+            break;
+        case LUA_TLIGHTUSERDATA:
+            print_error(L, "\t%s    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+            break;
+        case LUA_TNUMBER:
+            print_error(L, "\t%s    %f", lua_typename(L, lua_type(L, i)), lua_tonumber(L, i));
+            break;
+        case LUA_TSTRING:
+            print_error(L, "\t%s    %s", lua_typename(L, lua_type(L, i)), lua_tostring(L, i));
+            break;
+        case LUA_TTABLE:
+            print_error(L, "\t%s    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+            break;
+        case LUA_TFUNCTION:
+            print_error(L, "\t%s()  0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+            break;
+        case LUA_TUSERDATA:
+            print_error(L, "\t%s    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+            break;
+        case LUA_TTHREAD:
+            print_error(L, "\t%s", lua_typename(L, lua_type(L, i)));
+            break;
         }
     }
     print_error(L, "%s","-------------------------");
 }
-
+ 
 /*---------------------------------------------------------------------------*/ 
 /* read                                                                      */ 
 /*---------------------------------------------------------------------------*/ 
-    template<>
+template<>
 char* lua_tinker::read(lua_State *L, int index)
 {
-    return (char*)lua_tostring(L, index);				
+    return (char*)lua_tostring(L, index);               
 }
 
-    template<>
+template<>
 const char* lua_tinker::read(lua_State *L, int index)
 {
-    return (const char*)lua_tostring(L, index);		
+    return (const char*)lua_tostring(L, index);     
 }
 
-    template<>
+template<>
 char lua_tinker::read(lua_State *L, int index)
 {
-    return (char)lua_tonumber(L, index);				
+    return (char)lua_tonumber(L, index);                
 }
 
-    template<>
+template<>
 unsigned char lua_tinker::read(lua_State *L, int index)
 {
-    return (unsigned char)lua_tonumber(L, index);		
+    return (unsigned char)lua_tonumber(L, index);       
 }
 
-    template<>
+template<>
 short lua_tinker::read(lua_State *L, int index)
 {
-    return (short)lua_tonumber(L, index);				
+    return (short)lua_tonumber(L, index);               
 }
 
-    template<>
+template<>
 unsigned short lua_tinker::read(lua_State *L, int index)
 {
-    return (unsigned short)lua_tonumber(L, index);	
+    return (unsigned short)lua_tonumber(L, index);  
 }
 
-    template<>
+template<>
 long lua_tinker::read(lua_State *L, int index)
 {
-    return (long)lua_tonumber(L, index);				
+    return (long)lua_tonumber(L, index);                
 }
 
-    template<>
+template<>
 unsigned long lua_tinker::read(lua_State *L, int index)
 {
-    return (unsigned long)lua_tonumber(L, index);		
+    return (unsigned long)lua_tonumber(L, index);       
 }
 
-    template<>
+template<>
 int lua_tinker::read(lua_State *L, int index)
 {
-    return (int)lua_tonumber(L, index);				
+    return (int)lua_tonumber(L, index);             
 }
 
-    template<>
+template<>
 unsigned int lua_tinker::read(lua_State *L, int index)
 {
-    return (unsigned int)lua_tonumber(L, index);		
+    return (unsigned int)lua_tonumber(L, index);        
 }
 
-    template<>
+template<>
 float lua_tinker::read(lua_State *L, int index)
 {
-    return (float)lua_tonumber(L, index);				
+    return (float)lua_tonumber(L, index);               
 }
 
-    template<>
+template<>
 double lua_tinker::read(lua_State *L, int index)
 {
-    return (double)lua_tonumber(L, index);			
+    return (double)lua_tonumber(L, index);          
 }
 
-    template<>
+template<>
 bool lua_tinker::read(lua_State *L, int index)
 {
     if(lua_isboolean(L, index))
-        return lua_toboolean(L, index) != 0;				
+        return lua_toboolean(L, index) != 0;                
     else
         return lua_tonumber(L, index) != 0;
 }
 
-    template<>
+template<>
 void lua_tinker::read(lua_State *L, int index)
 {
-    return;											
+    (void)L;
+    (void)index;
+    return;                                         
 }
 
-    template<>
+template<>
 long long lua_tinker::read(lua_State *L, int index)
 {
     if(lua_isnumber(L,index))
@@ -390,7 +392,7 @@ long long lua_tinker::read(lua_State *L, int index)
     else
         return *(long long*)lua_touserdata(L, index);
 }
-    template<>
+template<>
 unsigned long long lua_tinker::read(lua_State *L, int index)
 {
     if(lua_isnumber(L,index))
@@ -399,7 +401,7 @@ unsigned long long lua_tinker::read(lua_State *L, int index)
         return *(unsigned long long*)lua_touserdata(L, index);
 }
 
-    template<>
+template<>
 lua_tinker::table lua_tinker::read(lua_State *L, int index)
 {
     return table(L, index);
@@ -408,98 +410,98 @@ lua_tinker::table lua_tinker::read(lua_State *L, int index)
 /*---------------------------------------------------------------------------*/ 
 /* push                                                                      */ 
 /*---------------------------------------------------------------------------*/ 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, char ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, unsigned char ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, short ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, unsigned short ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, long ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, unsigned long ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, int ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, unsigned int ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, float ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, double ret)
 {
-    lua_pushnumber(L, ret);						
+    lua_pushnumber(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, char* ret)
 {
-    lua_pushstring(L, ret);						
+    lua_pushstring(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, const char* ret)
 {
-    lua_pushstring(L, ret);						
+    lua_pushstring(L, ret);                     
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, bool ret)
 {
-    lua_pushboolean(L, ret);						
+    lua_pushboolean(L, ret);                        
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, lua_value* ret)
 {
-    if(ret) ret->to_lua(L); else lua_pushnil(L);	
+    if(ret) ret->to_lua(L); else lua_pushnil(L);    
 }
 
-    template<>
-void lua_tinker::push(lua_State *L, long long ret)			
+template<>
+void lua_tinker::push(lua_State *L, long long ret)          
 { 
     *(long long*)lua_newuserdata(L, sizeof(long long)) = ret;
     lua_getglobal(L, "__s64");
     lua_setmetatable(L, -2);
 }
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, unsigned long long ret)
 {
     *(unsigned long long*)lua_newuserdata(L, sizeof(unsigned long long)) = ret;
@@ -507,7 +509,7 @@ void lua_tinker::push(lua_State *L, unsigned long long ret)
     lua_setmetatable(L, -2);
 }
 
-    template<>
+template<>
 void lua_tinker::push(lua_State *L, lua_tinker::table ret)
 {
     lua_pushvalue(L, ret.m_obj->m_index);
@@ -516,13 +518,13 @@ void lua_tinker::push(lua_State *L, lua_tinker::table ret)
 /*---------------------------------------------------------------------------*/ 
 /* pop                                                                       */ 
 /*---------------------------------------------------------------------------*/ 
-    template<>
+template<>
 void lua_tinker::pop(lua_State *L)
 {
     lua_pop(L, 1);
 }
 
-    template<>	
+template<>  
 lua_tinker::table lua_tinker::pop(lua_State *L)
 {
     return table(L, lua_gettop(L));
@@ -611,10 +613,10 @@ void lua_tinker::push_meta(lua_State *L, const char* name)
 /*---------------------------------------------------------------------------*/ 
 /* table object on stack                                                     */ 
 /*---------------------------------------------------------------------------*/ 
-    lua_tinker::table_obj::table_obj(lua_State* L, int index)
+lua_tinker::table_obj::table_obj(lua_State* L, int index)
     :m_L(L)
     ,m_index(index)
-     ,m_ref(0)
+    ,m_ref(0)
 {
     if(lua_isnil(m_L, m_index))
     {

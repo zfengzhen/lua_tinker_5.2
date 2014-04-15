@@ -6,6 +6,7 @@ extern "C"
 };
 
 #include "lua_tinker.h"
+#include <stdint.h>
 
 int main()
 {
@@ -26,7 +27,7 @@ int main()
     lua_tinker::table inside = haha.get<lua_tinker::table>("inside");
 
     // 插入数值
-    inside.set("value", 2);
+    inside.set("value", (uint64_t)2);
 
     // 运行脚本
     lua_tinker::dofile(L, "sample4.lua");

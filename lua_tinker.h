@@ -499,6 +499,7 @@ namespace lua_tinker
     // member variable
     struct var_base
     {
+        virtual ~var_base() {};
         virtual void get(lua_State *L) = 0;
         virtual void set(lua_State *L) = 0;
     };
@@ -784,6 +785,7 @@ namespace lua_tinker
 
     // call
     // C++调用lua函数
+    // 传入参数不能是引用!!!!!!
     template<typename RVal>
     RVal call(lua_State* L, const char* name)
     {

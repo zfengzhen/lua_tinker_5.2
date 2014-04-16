@@ -952,6 +952,11 @@ namespace lua_tinker
         {
             // 压入函数到类table
             lua_pushstring(L, name);
+            // 成员函数通过void2type只能推导出void2val
+            // 因此需要通过newuserdata多加载一层指针
+            // 对于C函数以及静态成员函数需要用lua_pushlightuserdata
+            // 直接推导出void2ptr
+            // 特别注意如果时类的静态成员函数:需要通过def去注册!!!!!
             new(lua_newuserdata(L,sizeof(F))) F(func);
             push_functor(L, func);
             lua_rawset(L, -3);

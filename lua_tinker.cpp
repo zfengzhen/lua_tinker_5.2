@@ -9,6 +9,13 @@
 #include <iostream>
 #include "lua_tinker.h"
 
+#if defined(_MSC_VER)
+    #define I64_FMT "I64"
+#elif defined(__APPLE__) 
+    #define I64_FMT "q"
+#else
+    #define I64_FMT "ll"
+#endif
 
 /*---------------------------------------------------------------------------*/ 
 /* init                                                                      */ 
@@ -25,7 +32,7 @@ void lua_tinker::init(lua_State *L)
 static int tostring_s64(lua_State *L)
 {
     char temp[64];
-    sprintf(temp, "%lld", *(long long*)lua_topointer(L, 1));
+	sprintf(temp, "%" I64_FMT "d", *(long long*)lua_topointer(L, 1));
     lua_pushstring(L, temp);
     return 1;
 }
@@ -33,21 +40,27 @@ static int tostring_s64(lua_State *L)
 /*---------------------------------------------------------------------------*/ 
 static int eq_s64(lua_State *L)
 {
-    lua_pushboolean(L, memcmp(lua_topointer(L, 1), lua_topointer(L, 2), sizeof(long long)) == 0);
+    int64_t a = *(int64_t*)lua_touserdata(L, 1);
+    int64_t b = *(int64_t*)lua_touserdata(L, 2);
+    lua_pushboolean(L, (a == b));
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/ 
 static int lt_s64(lua_State *L)
 {
-    lua_pushboolean(L, memcmp(lua_topointer(L, 1), lua_topointer(L, 2), sizeof(long long)) < 0);
+    int64_t a = *(int64_t*)lua_touserdata(L, 1);
+    int64_t b = *(int64_t*)lua_touserdata(L, 2);
+    lua_pushboolean(L, (a < b));
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/ 
 static int le_s64(lua_State *L)
 {
-    lua_pushboolean(L, memcmp(lua_topointer(L, 1), lua_topointer(L, 2), sizeof(long long)) <= 0);
+    int64_t a = *(int64_t*)lua_touserdata(L, 1);
+    int64_t b = *(int64_t*)lua_touserdata(L, 2);
+    lua_pushboolean(L, (a <= b));
     return 1;
 }
 
@@ -86,7 +99,7 @@ void lua_tinker::init_s64(lua_State *L)
 static int tostring_u64(lua_State *L)
 {
     char temp[64];
-    sprintf(temp, "%llu", *(unsigned long long*)lua_topointer(L, 1));
+	sprintf(temp, "%" I64_FMT "u", *(unsigned long long*)lua_topointer(L, 1));
     lua_pushstring(L, temp);
     return 1;
 }
@@ -94,21 +107,27 @@ static int tostring_u64(lua_State *L)
 /*---------------------------------------------------------------------------*/ 
 static int eq_u64(lua_State *L)
 {
-    lua_pushboolean(L, memcmp(lua_topointer(L, 1), lua_topointer(L, 2), sizeof(unsigned long long)) == 0);
+    uint64_t a = *(uint64_t*)lua_touserdata(L, 1);
+    uint64_t b = *(uint64_t*)lua_touserdata(L, 2);
+    lua_pushboolean(L, (a == b));
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/ 
 static int lt_u64(lua_State *L)
 {
-    lua_pushboolean(L, memcmp(lua_topointer(L, 1), lua_topointer(L, 2), sizeof(unsigned long long)) < 0);
+    uint64_t a = *(uint64_t*)lua_touserdata(L, 1);
+    uint64_t b = *(uint64_t*)lua_touserdata(L, 2);
+    lua_pushboolean(L, (a < b));
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/ 
 static int le_u64(lua_State *L)
 {
-    lua_pushboolean(L, memcmp(lua_topointer(L, 1), lua_topointer(L, 2), sizeof(unsigned long long)) <= 0);
+    uint64_t a = *(uint64_t*)lua_touserdata(L, 1);
+    uint64_t b = *(uint64_t*)lua_touserdata(L, 2);
+    lua_pushboolean(L, (a <= b));
     return 1;
 }
 
@@ -126,6 +145,7 @@ void lua_tinker::init_u64(lua_State *L)
     lua_pushcclosure(L, tostring_u64, 0);
     lua_rawset(L, -3);
 
+    // 比较只会两边元表都是相同的元素才会进入比较
     lua_pushstring(L, "__eq");
     lua_pushcclosure(L, eq_u64, 0);
     lua_rawset(L, -3);  
@@ -137,6 +157,11 @@ void lua_tinker::init_u64(lua_State *L)
     lua_pushstring(L, "__le");
     lua_pushcclosure(L, le_u64, 0);
     lua_rawset(L, -3);  
+
+    // __concat, __add等只要是其中一个元素的元表属于该元表就会进入
+    //lua_pushstring(L, "__concat");
+    //lua_pushcclosure(L, concat_u64, 0);
+    //lua_rawset(L, -3);
 
     lua_setglobal(L, name);
 }
@@ -331,17 +356,38 @@ unsigned short lua_tinker::read(lua_State *L, int index)
     return (unsigned short)lua_tonumber(L, index);  
 }
 
+// long is different between i386 and X86_64 architecture
+#if defined(__X86_64__) || defined(__X86_64) || defined(__amd_64) || defined(__amd_64__)
 template<>
 long lua_tinker::read(lua_State *L, int index)
 {
-    return (long)lua_tonumber(L, index);                
+    if(lua_isnumber(L,index))
+        return (long)lua_tonumber(L, index);
+    else
+        return *(long*)lua_touserdata(L, index);
 }
 
 template<>
 unsigned long lua_tinker::read(lua_State *L, int index)
 {
-    return (unsigned long)lua_tonumber(L, index);       
+    if(lua_isnumber(L,index))
+        return (unsigned long)lua_tonumber(L, index);
+    else
+        return *(unsigned long*)lua_touserdata(L, index);
 }
+#else //__i386__ //32bit
+template<>
+long lua_tinker::read(lua_State *L, int index)
+{
+	return (long)lua_tonumber(L, index);				
+}
+
+template<> 
+unsigned long lua_tinker::read(lua_State *L, int index)
+{
+	return (unsigned long)lua_tonumber(L, index);		
+}
+#endif
 
 template<>
 int lua_tinker::read(lua_State *L, int index)
@@ -434,17 +480,35 @@ void lua_tinker::push(lua_State *L, unsigned short ret)
     lua_pushnumber(L, ret);                     
 }
 
+#if defined(__X86_64__) || defined(__X86_64) || defined(__amd_64) || defined(__amd_64__)
 template<>
 void lua_tinker::push(lua_State *L, long ret)
 {
-    lua_pushnumber(L, ret);                     
+    *(long*)lua_newuserdata(L, sizeof(long)) = ret;
+    lua_getglobal(L, "__s64");
+    lua_setmetatable(L, -2);
 }
 
 template<>
 void lua_tinker::push(lua_State *L, unsigned long ret)
 {
-    lua_pushnumber(L, ret);                     
+    *(unsigned long*)lua_newuserdata(L, sizeof(unsigned long)) = ret;
+    lua_getglobal(L, "__u64");
+    lua_setmetatable(L, -2);
 }
+#else //__i386__ 
+template<>
+void lua_tinker::push(lua_State *L, long ret)
+{
+	lua_pushnumber(L, ret);						
+}
+
+template<>
+void lua_tinker::push(lua_State *L, unsigned long ret)
+{
+	lua_pushnumber(L, ret);						
+}
+#endif
 
 template<>
 void lua_tinker::push(lua_State *L, int ret)
@@ -558,27 +622,48 @@ static void invoke_parent(lua_State *L)
 int lua_tinker::meta_get(lua_State *L)
 {
     // 传入表 和 索引参数
+    // stack: 1.类(userdata) 2.变量(string) 
     lua_getmetatable(L,1);
+    // stack: 1.类(userdata) 2.变量(string) 3.meta(table)
     lua_pushvalue(L,2);
+    // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.变量(string)
     lua_rawget(L,-2);
+    // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.meta[变量]value值(userdata)
 
+    // 如果存在userdata 存在该变量
     if(lua_isuserdata(L,-1))
     {
         user2type<var_base*>::invoke(L,-1)->get(L);
+        // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.meta[变量]value值(userdata) 5.实际值
         lua_remove(L, -2);
+        // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.实际值
     }
     else if(lua_isnil(L,-1))
     {
+        // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.nil
         lua_remove(L,-1);
+        // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 
         invoke_parent(L);
-        if(lua_isnil(L,-1))
+        // fix bug by fergus
+        // 调用父类也需调用get
+        if(lua_isuserdata(L,-1))
         {
+            // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.父类中的变量(userdata) 
+            user2type<var_base*>::invoke(L,-1)->get(L);
+            // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.父类中的变量(userdata) 5.实际值
+            lua_remove(L, -2);
+            // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.实际值
+        }
+        else if(lua_isnil(L,-1))
+        {
+            // stack: 1.类(userdata) 2.变量(string) 3.meta(table) 4.nil
             lua_pushfstring(L, "can't find '%s' class variable. (forgot registering class variable ?)", lua_tostring(L, 2));
             lua_error(L);
         }
     } 
 
     lua_remove(L,-2);
+    // stack: 1.类(userdata) 2.变量(string) 3.实际值
 
     return 1;
 }
@@ -586,21 +671,43 @@ int lua_tinker::meta_get(lua_State *L)
 /*---------------------------------------------------------------------------*/ 
 int lua_tinker::meta_set(lua_State *L)
 {
+    // stack: 1.类(userdata) 2.变量(string) 3.要赋的值
     lua_getmetatable(L,1);
+    // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table)
     lua_pushvalue(L,2);
+    // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.变量(string)
     lua_rawget(L,-2);
+    // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.meta[变量](userdata mem_var指针)
 
     if(lua_isuserdata(L,-1))
     {
         user2type<var_base*>::invoke(L,-1)->set(L);
+        // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.meta[变量](userdata mem_var指针)
     }
     else if(lua_isnil(L, -1))
     {
+        // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.nil
+        lua_remove(L,-1);
+        // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table)
         lua_pushvalue(L,2);
-        lua_pushvalue(L,3);
-        lua_rawset(L, -4);
+        // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.变量(string)
+        lua_pushvalue(L,4);
+        // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.变量(string) 6.类meta(table)
+        invoke_parent(L);
+        // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.变量(string) 6.类meta(table) 7.获取到父类的变量(userdata mem_var指针)
+        if(lua_isuserdata(L,-1))
+        {
+            user2type<var_base*>::invoke(L,-1)->set(L);
+        }
+        else if(lua_isnil(L,-1))
+        {
+            // stack: 1.类(userdata) 2.变量(string) 3.要赋的值 4.类meta(table) 5.变量(string) 6.类meta(table) 7.nil
+            lua_pushfstring(L, "can't find '%s' class variable. (forgot registering class variable ?)", lua_tostring(L, 2));
+            lua_error(L);
+        }
     }
     lua_settop(L, 3);
+    // stack: 1.类(userdata) 2.变量(string) 3.要赋的值
     return 0;
 }
 

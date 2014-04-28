@@ -19,13 +19,14 @@ struct base
     base() {}
 
     const char* is_base(){ return "this is base"; }
+    int _base_var;
 };
 
 // 子类
 class test : public base
 {
     public:
-        test(int val) : _test(val) {}
+        test(int val) : _test(val) {base::_base_var = 1121;}
         ~test() {}
 
         const char* is_test(){ return "this is test"; }
@@ -49,6 +50,7 @@ int main()
     luaL_openlibs(L);
     lua_tinker::class_add<base>(L, "base");
     lua_tinker::class_def<base>(L, "is_base", &base::is_base);
+    lua_tinker::class_mem<base>(L, "_base_var", &base::_base_var);
 
     lua_tinker::class_add<test>(L, "test");
     lua_tinker::class_inh<test, base>(L);

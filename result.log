@@ -1,0 +1,260 @@
+<1>{
+  _G = <table 1>,
+  _VERSION = "Lua 5.2",
+  assert = <function 1>,
+  base = <2>{
+    __gc = <function 2>,
+    __index = <function 3>,
+    __name = "base",
+    __newindex = <function 4>,
+    is_base = <function 5>
+  },
+  bit32 = <3>{
+    arshift = <function 6>,
+    band = <function 7>,
+    bnot = <function 8>,
+    bor = <function 9>,
+    btest = <function 10>,
+    bxor = <function 11>,
+    extract = <function 12>,
+    lrotate = <function 13>,
+    lshift = <function 14>,
+    replace = <function 15>,
+    rrotate = <function 16>,
+    rshift = <function 17>
+  },
+  collectgarbage = <function 18>,
+  coroutine = <4>{
+    create = <function 19>,
+    resume = <function 20>,
+    running = <function 21>,
+    status = <function 22>,
+    wrap = <function 23>,
+    yield = <function 24>
+  },
+  debug = <5>{
+    debug = <function 25>,
+    gethook = <function 26>,
+    getinfo = <function 27>,
+    getlocal = <function 28>,
+    getmetatable = <function 29>,
+    getregistry = <function 30>,
+    getupvalue = <function 31>,
+    getuservalue = <function 32>,
+    sethook = <function 33>,
+    setlocal = <function 34>,
+    setmetatable = <function 35>,
+    setupvalue = <function 36>,
+    setuservalue = <function 37>,
+    traceback = <function 38>,
+    upvalueid = <function 39>,
+    upvaluejoin = <function 40>
+  },
+  dofile = <function 41>,
+  error = <function 42>,
+  g_test = <userdata 1>,
+  getmetatable = <function 43>,
+  io = <6>{
+    close = <function 44>,
+    flush = <function 45>,
+    input = <function 46>,
+    lines = <function 47>,
+    open = <function 48>,
+    output = <function 49>,
+    popen = <function 50>,
+    read = <function 51>,
+    stderr = <userdata 2>,
+    stdin = <userdata 3>,
+    stdout = <userdata 4>,
+    tmpfile = <function 52>,
+    type = <function 53>,
+    write = <function 54>
+  },
+  ipairs = <function 55>,
+  load = <function 56>,
+  loadfile = <function 57>,
+  loadstring = <function 56>,
+  math = <7>{
+    abs = <function 58>,
+    acos = <function 59>,
+    asin = <function 60>,
+    atan = <function 61>,
+    atan2 = <function 62>,
+    ceil = <function 63>,
+    cos = <function 64>,
+    cosh = <function 65>,
+    deg = <function 66>,
+    exp = <function 67>,
+    floor = <function 68>,
+    fmod = <function 69>,
+    frexp = <function 70>,
+    huge = inf,
+    ldexp = <function 71>,
+    log = <function 72>,
+    log10 = <function 73>,
+    max = <function 74>,
+    min = <function 75>,
+    modf = <function 76>,
+    pi = 3.1415926535898,
+    pow = <function 77>,
+    rad = <function 78>,
+    random = <function 79>,
+    randomseed = <function 80>,
+    sin = <function 81>,
+    sinh = <function 82>,
+    sqrt = <function 83>,
+    tan = <function 84>,
+    tanh = <function 85>
+  },
+  module = <function 86>,
+  next = <function 87>,
+  os = <8>{
+    clock = <function 88>,
+    date = <function 89>,
+    difftime = <function 90>,
+    execute = <function 91>,
+    exit = <function 92>,
+    getenv = <function 93>,
+    remove = <function 94>,
+    rename = <function 95>,
+    setlocale = <function 96>,
+    time = <function 97>,
+    tmpname = <function 98>
+  },
+  package = <9>{
+    config = "/\n;\n?\n!\n-\n",
+    cpath = "/usr/local/lib/lua/5.2/?.so;/usr/local/lib/lua/5.2/loadall.so;./?.so",
+    loaded = {
+      _G = <table 1>,
+      bit32 = <table 3>,
+      coroutine = <table 4>,
+      debug = <table 5>,
+      inspect = {
+        _DESCRIPTION = "human-readable representations of tables",
+        _LICENSE = '    MIT LICENSE\n\n    Copyright (c) 2013 Enrique García Cota\n\n    Permission is hereby granted, free of charge, to any person obtaining a\n    copy of this software and associated documentation files (the\n    "Software"), to deal in the Software without restriction, including\n    without limitation the rights to use, copy, modify, merge, publish,\n    distribute, sublicense, and/or sell copies of the Software, and to\n    permit persons to whom the Software is furnished to do so, subject to\n    the following conditions:\n\n    The above copyright notice and this permission notice shall be included\n    in all copies or substantial portions of the Software.\n\n    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS\n    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.\n    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY\n    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,\n    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE\n    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n  ',
+        _URL = "http://github.com/kikito/inspect.lua",
+        _VERSION = "inspect.lua 2.0.0",
+        inspect = <function 99>,
+        <metatable> = {
+          __call = <function 100>
+        }
+      },
+      io = <table 6>,
+      math = <table 7>,
+      os = <table 8>,
+      package = <table 9>,
+      string = <10>{
+        byte = <function 101>,
+        char = <function 102>,
+        dump = <function 103>,
+        find = <function 104>,
+        format = <function 105>,
+        gmatch = <function 106>,
+        gsub = <function 107>,
+        len = <function 108>,
+        lower = <function 109>,
+        match = <function 110>,
+        rep = <function 111>,
+        reverse = <function 112>,
+        sub = <function 113>,
+        upper = <function 114>
+      },
+      table = <11>{
+        concat = <function 115>,
+        insert = <function 116>,
+        maxn = <function 117>,
+        pack = <function 118>,
+        remove = <function 119>,
+        sort = <function 120>,
+        unpack = <function 121>
+      }
+    },
+    loaders = <12>{ <function 122>, <function 123>, <function 124>, <function 125> },
+    loadlib = <function 126>,
+    path = "/usr/local/share/lua/5.2/?.lua;/usr/local/share/lua/5.2/?/init.lua;/usr/local/lib/lua/5.2/?.lua;/usr/local/lib/lua/5.2/?/init.lua;./?.lua",
+    preload = {},
+    searchers = <table 12>,
+    searchpath = <function 127>,
+    seeall = <function 128>
+  },
+  pairs = <function 129>,
+  pcall = <function 130>,
+  print = <function 131>,
+  rawequal = <function 132>,
+  rawget = <function 133>,
+  rawlen = <function 134>,
+  rawset = <function 135>,
+  require = <function 136>,
+  select = <function 137>,
+  setmetatable = <function 138>,
+  string = <table 10>,
+  table = <table 11>,
+  test = {
+    __gc = <function 139>,
+    __index = <function 3>,
+    __name = "test",
+    __newindex = <function 4>,
+    __parent = <table 2>,
+    _test = <userdata 5>,
+    get = <function 140>,
+    is_test = <function 141>,
+    ret_int = <function 142>,
+    ret_mul = <function 143>,
+    ret_void = <function 144>,
+    set = <function 145>,
+    <metatable> = {
+      __call = <function 146>
+    }
+  },
+  tonumber = <function 147>,
+  tostring = <function 148>,
+  type = <function 149>,
+  unpack = <function 121>,
+  xpcall = <function 150>
+}
+11
+this is test
+11
+temp ctor
+4
+a ctor
+11
+this is base
+this is test
+g_test	-> 	userdata: 0x1d590f8
+temp	-> 	userdata: 0x1d6ec48
+a	-> 	userdata: 0x1d6eca8
+objinfo(g_test)
+<base>
+	[f] base:is_base()
+<test>
+	[f] test:get()
+	[f] test:is_test()
+	[f] test:set()
+	[v] test:_test
+	[f] test:ret_int()
+	[f] test:ret_void()
+	[f] test:ret_mul()
+objinfo(temp)
+<base>
+	[f] base:is_base()
+<test>
+	[f] test:get()
+	[f] test:is_test()
+	[f] test:set()
+	[v] test:_test
+	[f] test:ret_int()
+	[f] test:ret_void()
+	[f] test:ret_mul()
+objinfo(a)
+<base>
+	[f] base:is_base()
+<test>
+	[f] test:get()
+	[f] test:is_test()
+	[f] test:set()
+	[v] test:_test
+	[f] test:ret_int()
+	[f] test:ret_void()
+	[f] test:ret_mul()
+test_for_gc->value = 1121

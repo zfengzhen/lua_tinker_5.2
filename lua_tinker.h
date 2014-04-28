@@ -10,6 +10,7 @@
 #define _LUA_TINKER_H_
 
 #include <new>
+#include <stdint.h>
 #include <string.h>
 #include <lua.hpp>
 #include <stdio.h>
@@ -463,36 +464,42 @@ namespace lua_tinker
     template<typename RVal> 
     void push_functor(lua_State *L, RVal (*func)())
     {
+        (void)func;
         lua_pushcclosure(L, functor<RVal>::invoke, 1);
     }
 
     template<typename RVal, typename T1> 
     void push_functor(lua_State *L, RVal (*func)(T1))
     { 
+        (void)func;
         lua_pushcclosure(L, functor<RVal,T1>::invoke, 1);
     }
 
     template<typename RVal, typename T1, typename T2> 
     void push_functor(lua_State *L, RVal (*func)(T1,T2))
     { 
+        (void)func;
         lua_pushcclosure(L, functor<RVal,T1,T2>::invoke, 1);
     }
 
     template<typename RVal, typename T1, typename T2, typename T3> 
     void push_functor(lua_State *L, RVal (*func)(T1,T2,T3))
     { 
+        (void)func;
         lua_pushcclosure(L, functor<RVal,T1,T2,T3>::invoke, 1);
     }
 
     template<typename RVal, typename T1, typename T2, typename T3, typename T4> 
     void push_functor(lua_State *L, RVal (*func)(T1,T2,T3,T4))
     { 
+        (void)func;
         lua_pushcclosure(L, functor<RVal,T1,T2,T3,T4>::invoke, 1);
     }
 
     template<typename RVal, typename T1, typename T2, typename T3, typename T4, typename T5> 
     void push_functor(lua_State *L, RVal (*func)(T1,T2,T3,T4,T5))
     { 
+        (void)func;
         lua_pushcclosure(L, functor<RVal,T1,T2,T3,T4,T5>::invoke, 1);
     }
 
@@ -533,7 +540,7 @@ namespace lua_tinker
     };
 
     template<typename RVal, typename T, typename T1, typename T2> 
-    struct mem_functor<RVal,T,T1, T2>
+    struct mem_functor<RVal,T,T1,T2>
     {
         static int invoke(lua_State *L) { push(L,(read<T*>(L,1)->*upvalue_<RVal(T::*)(T1,T2)>(L))(read<T1>(L,2),read<T2>(L,3))); return 1; }
     };
@@ -604,72 +611,84 @@ namespace lua_tinker
     template<typename RVal, typename T>
     void push_functor(lua_State *L, RVal (T::*func)()) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T>::invoke, 1); 
     }
 
     template<typename RVal, typename T>
     void push_functor(lua_State *L, RVal (T::*func)() const) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1>
     void push_functor(lua_State *L, RVal (T::*func)(T1)) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1>
     void push_functor(lua_State *L, RVal (T::*func)(T1) const) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2)) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2) const) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2, typename T3>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2,T3)) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2,T3>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2, typename T3>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2,T3) const) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2,T3>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2, typename T3, typename T4>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2,T3,T4)) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2,T3,T4>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2, typename T3, typename T4>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2,T3,T4) const) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2,T3,T4>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2, typename T3, typename T4, typename T5>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2,T3,T4,T5)) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2,T3,T4,T5>::invoke, 1); 
     }
 
     template<typename RVal, typename T, typename T1, typename T2, typename T3, typename T4, typename T5>
     void push_functor(lua_State *L, RVal (T::*func)(T1,T2,T3,T4,T5) const) 
     { 
+        (void)func;
         lua_pushcclosure(L, mem_functor<RVal,T,T1,T2,T3,T4,T5>::invoke, 1); 
     }
 
@@ -785,7 +804,7 @@ namespace lua_tinker
 
     // call
     // C++调用lua函数
-    // 传入参数不能是引用!!!!!!
+    // 传入参数不能用引用!!!!!!!!
     template<typename RVal>
     RVal call(lua_State* L, const char* name)
     {
@@ -872,6 +891,151 @@ namespace lua_tinker
         return pop<RVal>(L);
     }
 
+template<typename RVal, typename T1, typename T2, typename T3, typename T4>
+RVal call(lua_State* L, const char* name, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
+{
+    lua_pushcclosure(L, on_error, 0);
+    int errfunc = lua_gettop(L);
+
+    lua_getglobal(L,name);
+    if(lua_isfunction(L,-1))
+    {
+        push(L, arg1);
+        push(L, arg2);
+        push(L, arg3);
+        push(L, arg4);
+        if(lua_pcall(L, 4, 1, errfunc) != 0)
+        {
+            lua_pop(L, 1);
+        }
+    }
+    else
+    {
+        print_error(L, "lua_tinker::call() attempt to call global `%s' (not a function)", name);
+    }
+
+    lua_remove(L, -2);
+    return pop<RVal>(L);
+}
+
+template<typename RVal, typename T1, typename T2, typename T3, typename T4, typename T5>
+RVal call(lua_State* L, const char* name, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
+{
+    lua_pushcclosure(L, on_error, 0);
+    int errfunc = lua_gettop(L);
+
+    lua_getglobal(L,name);
+    if(lua_isfunction(L,-1))
+    {
+        push(L, arg1);
+        push(L, arg2);
+        push(L, arg3);
+        push(L, arg4);
+        push(L, arg5);
+        if(lua_pcall(L, 5, 1, errfunc) != 0)
+        {
+            lua_pop(L, 1);
+        }
+    }
+    else
+    {
+        print_error(L, "lua_tinker::call() attempt to call global `%s' (not a function)", name);
+    }
+
+    lua_remove(L, -2);
+    return pop<RVal>(L);
+}
+
+template<typename RVal, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
+RVal call(lua_State* L, const char* name, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+{
+    lua_pushcclosure(L, on_error, 0);
+    int errfunc = lua_gettop(L);
+
+    lua_getglobal(L,name);
+    if(lua_isfunction(L,-1))
+    {
+        push(L, arg1);
+        push(L, arg2);
+        push(L, arg3);
+        push(L, arg4);
+        push(L, arg5);
+        push(L, arg6);
+        if(lua_pcall(L, 6, 1, errfunc) != 0)
+        {
+            lua_pop(L, 1);
+        }
+    }
+    else
+    {
+        print_error(L, "lua_tinker::call() attempt to call global `%s' (not a function)", name);
+    }
+
+    lua_remove(L, -2);
+    return pop<RVal>(L);
+}
+
+template<typename RVal, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
+RVal call(lua_State* L, const char* name, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+{
+    lua_pushcclosure(L, on_error, 0);
+    int errfunc = lua_gettop(L);
+
+    lua_getglobal(L,name);
+    if(lua_isfunction(L,-1))
+    {
+        push(L, arg1);
+        push(L, arg2);
+        push(L, arg3);
+        push(L, arg4);
+        push(L, arg5);
+        push(L, arg6);
+        push(L, arg7);
+        if(lua_pcall(L, 7, 1, errfunc) != 0)
+        {
+            lua_pop(L, 1);
+        }
+    }
+    else
+    {
+        print_error(L, "lua_tinker::call() attempt to call global `%s' (not a function)", name);
+    }
+
+    lua_remove(L, -2);
+    return pop<RVal>(L);
+}
+
+template<typename RVal, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
+RVal call(lua_State* L, const char* name, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+{
+    lua_pushcclosure(L, on_error, 0);
+    int errfunc = lua_gettop(L);
+
+    lua_getglobal(L,name);
+    if(lua_isfunction(L,-1))
+    {
+        push(L, arg1);
+        push(L, arg2);
+        push(L, arg3);
+        push(L, arg4);
+        push(L, arg5);
+        push(L, arg6);
+        push(L, arg7);
+        push(L, arg8);
+        if(lua_pcall(L, 8, 1, errfunc) != 0)
+        {
+            lua_pop(L, 1);
+        }
+    }
+    else
+    {
+        print_error(L, "lua_tinker::call() attempt to call global `%s' (not a function)", name);
+    }
+
+    lua_remove(L, -2);
+    return pop<RVal>(L);
+} // }
+
     // class helper
     int meta_get(lua_State *L);
     int meta_set(lua_State *L);
@@ -952,11 +1116,6 @@ namespace lua_tinker
         {
             // 压入函数到类table
             lua_pushstring(L, name);
-            // 成员函数通过void2type只能推导出void2val
-            // 因此需要通过newuserdata多加载一层指针
-            // 对于C函数以及静态成员函数需要用lua_pushlightuserdata
-            // 直接推导出void2ptr
-            // 特别注意如果时类的静态成员函数:需要通过def去注册!!!!!
             new(lua_newuserdata(L,sizeof(F))) F(func);
             push_functor(L, func);
             lua_rawset(L, -3);
@@ -1083,5 +1242,7 @@ namespace lua_tinker
     };
 
 } // namespace lua_tinker
+
+typedef lua_tinker::table LuaTable;
 
 #endif //_LUA_TINKER_H_
